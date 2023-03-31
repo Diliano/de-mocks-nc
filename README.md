@@ -53,13 +53,13 @@ If we start a REPL, we should be able to do something like this:
 'Yuk! 5335'
 >>> nc.crunch()
 'Yum! 730'  # stored
->>> nc.tummy
+>>> nc.tummy()
 [{'number': 8100, 'fact': '8100 is divisible by its reverse.'}, {'number': 730, 'fact': '730 is the number of connected bipartite graphs with 9 vertices.'}]
 >>> nc.crunch()
 'Yum! 436'  # stored - tummy full
 >>> nc.crunch()
 'Burp! 8100' # 8100 burped out to make room for the new fact
->>> nc.tummy
+>>> nc.tummy()
 [{'number': 730, 'fact': '730 is the number of connected bipartite graphs with 9 vertices.'}, {'number': 436, 'fact': '436 is a boring number.'}, {'number': 5624, 'fact': '5624 is the number of binary 5×5 matrices up to permutations of rows and columns.'}]
 >>> nc.requester.log
 [{'request_number': 1, 'call_time': '2022-11-09T16:38:23.417667', 'end_point': 'http://numbersapi.com/random/math', 'result': 'SUCCESS', 'number': 8100},  

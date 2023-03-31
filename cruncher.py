@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime as dt
-from random import randint
+from collections import deque
 
 class NumberRequester:
 
@@ -43,7 +43,7 @@ class NumberRequester:
 class NumberCruncher:
     
     def __init__(self, size_of_tummy):
-        self.tummy = []
+        self._tummy = deque(maxlen=size_of_tummy)
         self.max_tummy_size = size_of_tummy
         self.requester = NumberRequester()
 
@@ -55,16 +55,19 @@ class NumberCruncher:
                     'number': result['number'], 
                     "fact": result['fact']
                     }
-                if len(self.tummy) < self.max_tummy_size:
-                    self.tummy.append(digested)
+                if len(self._tummy) < self.max_tummy_size:
+                    self._tummy.append(digested)
                     return f'Yum! {digested["number"]}'
                 else:
-                    popped = self.tummy.pop(0)
-                    self.tummy.append(digested)
+                    popped = self._tummy[0]
+                    self._tummy.append(digested)
                     return f'Burp! {popped["number"]}'
             else:
                 return f'Yuk! {result["number"]}'
         except Exception as e:
             print(e)
             raise RuntimeError('Unexpected error')
+        
+    def tummy(self):
+        return list(self._tummy)
 
