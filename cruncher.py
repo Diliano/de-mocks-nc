@@ -2,6 +2,7 @@ import requests
 from datetime import datetime as dt
 from collections import deque
 
+
 class NumberRequester:
 
     endpoint = 'http://numbersapi.com/random/math'
@@ -18,43 +19,44 @@ class NumberRequester:
         if status == 200:
             awesome_fact = response.text
             number = int(awesome_fact.split()[0])
-            result = {'result': 'SUCCESS', 'number': number, "fact": awesome_fact}
+            result = {'result': 'SUCCESS',
+                      'number': number, "fact": awesome_fact}
             log_item = {
-                'request_number': self.__call_number, 
-                'call_time': timestamp, 
+                'request_number': self.__call_number,
+                'call_time': timestamp,
                 'end_point': self.endpoint,
-                'result': 'SUCCESS', 
+                'result': 'SUCCESS',
                 'number': number
-                }
+            }
             self.log.append(log_item)
             return result
         else:
             result = {'result': 'FAILURE', 'error_code': status}
             log_item = {
-                'request_number': self.__call_number, 
-                'call_time': timestamp, 
+                'request_number': self.__call_number,
+                'call_time': timestamp,
                 'end_point': self.endpoint,
                 'result': 'FAILURE'
-                }
+            }
             self.log.append(log_item)
             return result
 
 
 class NumberCruncher:
-    
-    def __init__(self, size_of_tummy):
+
+    def __init__(self, size_of_tummy, requester):
         self._tummy = deque(maxlen=size_of_tummy)
         self.max_tummy_size = size_of_tummy
-        self.requester = NumberRequester()
+        self.requester = requester
 
     def crunch(self):
         try:
             result = self.requester.call()
             if result['number'] % 2 == 0:
                 digested = {
-                    'number': result['number'], 
+                    'number': result['number'],
                     "fact": result['fact']
-                    }
+                }
                 if len(self._tummy) < self.max_tummy_size:
                     self._tummy.append(digested)
                     return f'Yum! {digested["number"]}'
@@ -67,7 +69,6 @@ class NumberCruncher:
         except Exception as e:
             print(e)
             raise RuntimeError('Unexpected error')
-        
+
     def tummy(self):
         return list(self._tummy)
-
