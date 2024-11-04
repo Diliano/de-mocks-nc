@@ -105,7 +105,12 @@ def test_number_cruncher_discards_oldest_item_when_tummy_full():
     assert number_cruncher.tummy() == expected_tummy
 
 
-def test_number_cruncher_raises_runtime_error_if_invalid_number_request():
+@pytest.mark.parametrize(
+    "invalid_request", [AttributeError, {"result": "FAILURE", "error_code": 400}]
+)
+def test_number_cruncher_raises_runtime_error_if_invalid_number_request(
+    invalid_request,
+):
     """Test that there is a runtime error if NumberRequester response is
     invalid
 
@@ -118,7 +123,7 @@ def test_number_cruncher_raises_runtime_error_if_invalid_number_request():
     """
     # Arrange
     mock_requester = Mock()
-    mock_requester.side_effect = AttributeError
+    mock_requester.call.side_effect = invalid_request
 
     number_cruncher = NumberCruncher(1, mock_requester)
     # Act + Assert
