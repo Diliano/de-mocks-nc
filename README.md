@@ -1,3 +1,5 @@
-# Mocking and Patching
+# Data Engineering Bootcamp - Mocking & Patching
 
-Instructions for today's sprint can be found at: https://l2c.northcoders.com/courses/data-toolkit/mocking-and-patching
+## Overview
+
+This repository contains work completed as part of the Mocking & Patching Sprint during my Data Engineering Bootcamp. 
